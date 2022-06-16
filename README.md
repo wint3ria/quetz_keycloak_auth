@@ -10,3 +10,12 @@ To install use:
 ```
 pip install .
 ```
+
+## Example config.toml section for Quetz server
+
+[keycloak]
+url = "http://mydomain.com"
+realm = "master"
+client_id = "quetz"
+client_secret = "myKeycloakClientSecret"
+scope = "email profile"
