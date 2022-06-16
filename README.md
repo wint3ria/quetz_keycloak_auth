@@ -16,12 +16,14 @@ pip install .
 
 Assuming that you are using the "master" realm and you implemented a "quetz" confidential OpenID client:
 
+```
 [keycloak]
 url = "http://mydomain.com"
 realm = "master"
 client_id = "quetz"
 client_secret = "myKeycloakClientSecret"
 scope = "email profile"
+```
 
 ## Limitations
 
