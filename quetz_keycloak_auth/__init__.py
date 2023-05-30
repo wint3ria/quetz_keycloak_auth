@@ -2,6 +2,8 @@ from quetz.authentication.oauth2 import OAuthAuthenticator
 from quetz.config import Config, ConfigEntry, ConfigSection
 import json
 
+import httpx
+
 
 class KeycloakAuthenticator(OAuthAuthenticator):
 
@@ -51,6 +53,14 @@ class KeycloakAuthenticator(OAuthAuthenticator):
     async def userinfo(self, request, token):
 
         resp = await self.client.get(self.userinfo_url, token=token)
+
+        try:
+            resp.raise_for_status()
+        except httpx.RequestError as exc:
+            raise RuntimeError(f"An error occurred while requesting {exc.request.url!r}.") from exc
+        except httpx.HTTPStatusError as exc:
+            raise RuntimeError(f"Error response {exc.response.status_code} while requesting {exc.request.url!r}.") from exc
+
         profile = resp.json()
 
         # TODO: Avatar implementation
