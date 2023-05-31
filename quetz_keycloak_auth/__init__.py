@@ -33,7 +33,7 @@ class KeycloakAuthenticator(OAuthAuthenticator):
         if config.configured_section("keycloak"):
 
             self.realm = config.keycloak_realm
-            self.realm_url = f'{config.keycloak_url}/auth/realms/{self.realm}'
+            self.realm_url = f'{config.keycloak_url}/realms/{self.realm}'
             self.access_token_url = f'{self.realm_url}/protocol/openid-connect/token'
             self.authorize_url = f'{self.realm_url}/protocol/openid-connect/auth'
             self.revoke_url = f'{self.realm_url}/protocol/openid-connect/logout'
@@ -63,7 +63,7 @@ class KeycloakAuthenticator(OAuthAuthenticator):
         except httpx.RequestError as exc:
             raise RuntimeError(f"An error occurred while requesting {exc.request.url!r}.") from exc
         except httpx.HTTPStatusError as exc:
-            raise RuntimeError(f"Error response {exc.response.status_code} while requesting {exc.request.url!r}.") from exc
+            raise RuntimeError(f"Error response {exc.response.status_code} while requesting {exc.request.url!r}:\n{exc.response.text}") from exc
 
         try:
             profile = resp.json()
