@@ -1,6 +1,8 @@
 from quetz.authentication.oauth2 import OAuthAuthenticator
 from quetz.config import Config, ConfigEntry, ConfigSection
 import json
+import logging
+logger = logging.getLogger("quetz.frontend.authenticators.keycloak")
 
 import httpx
 
@@ -51,6 +53,8 @@ class KeycloakAuthenticator(OAuthAuthenticator):
         super().configure(config)
 
     async def userinfo(self, request, token):
+
+        logger.trace(f"Requesting userinfo from {self.userinfo_url} with token {token} from request:\n{request}")
 
         resp = await self.client.get(self.userinfo_url, token=token)
 
