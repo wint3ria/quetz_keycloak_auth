@@ -68,7 +68,7 @@ class KeycloakAuthenticator(OAuthAuthenticator):
         try:
             profile = resp.json()
         except json.decoder.JSONDecodeError as exc:
-            raise RuntimeError(f"Error decoding JSON from {resp.url!r}. Received:\n{resp.data()}") from exc
+            raise RuntimeError(f"Error decoding JSON from {resp.url!r}. Received:\n{resp.text}") from exc
 
         # TODO: Avatar implementation
         profile = {
