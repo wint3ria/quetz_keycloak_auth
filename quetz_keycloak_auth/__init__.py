@@ -65,7 +65,10 @@ class KeycloakAuthenticator(OAuthAuthenticator):
         except httpx.HTTPStatusError as exc:
             raise RuntimeError(f"Error response {exc.response.status_code} while requesting {exc.request.url!r}.") from exc
 
-        profile = resp.json()
+        try:
+            profile = resp.json()
+        except json.decoder.JSONDecodeError as exc:
+            raise RuntimeError(f"Error decoding JSON from {resp.url!r}. Received:\n{resp.data()}") from exc
 
         # TODO: Avatar implementation
         profile = {
