@@ -97,6 +97,7 @@ class KeycloakAuthenticator(OAuthAuthenticator):
         # Filtering the refresh token so we can save the token in a cookie
         # session
         token.pop('refresh_token', None)
+        token.pop('id_token', None)
 
         auth_state = {"token": json.dumps(token), "provider": self.provider}
 
