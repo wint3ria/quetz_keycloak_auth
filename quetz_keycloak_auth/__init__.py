@@ -49,11 +49,12 @@ class KeycloakAuthenticator(OAuthAuthenticator):
         else:
             self.is_enabled = False
 
-        logger.debug(f"KeycloakAuthenticator configuration:\n{json.dumps({
+        cfg = json.dumps({
             k: v
             for k, v in self.__dict__.items()
             if k in {"realm", "realm_url", "access_token_url", "authorize_url", "revoke_url", "userinfo_url", "validate_token_url", "client_id", "client_secret", "is_enabled", "collect_emails", "scope"}
-        }, indent=4)}")
+        }, indent=4)
+        logger.debug(f'KeycloakAuthenticator configuration:\n{cfg}')
 
         # call the configure of base class to set default_channel and default role
         super().configure(config)
