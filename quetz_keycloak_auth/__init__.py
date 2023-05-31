@@ -54,7 +54,7 @@ class KeycloakAuthenticator(OAuthAuthenticator):
 
     async def userinfo(self, request, token):
 
-        logger.debug(f"Requesting userinfo from {self.userinfo_url} with token {token} from request:\n{request.text}")
+        logger.debug(f"Requesting userinfo from {self.userinfo_url} with token {token} from request:\n{request}")
 
         resp = await self.client.get(self.userinfo_url, token=token)
 
